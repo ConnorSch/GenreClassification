@@ -30,22 +30,13 @@ figure()
 sig = diag(S);
 [M,N] = size(CF);
 
-title('Singular Values and PCA Modes for Ideal Case')
-subplot(3,2,1), plot(sig(1:100),'ko','Linewidth',[1.5])
-%axis([0 7 0 2*10^4])
+subplot(1,2,1), plot(sig(1:100),'ko','Linewidth',[1.5])
+ylabel('Singular Values')
+xlabel('Singular Value Along Diagonal')
 
-subplot(3,2,2), semilogy(sig(1:100),'ko','Linewidth',[1.5])
-%axis([0 7 0 2*10^4])
-
-xtest = linspace(1,M,M);
-subplot(3,1,2) 
-plot(xtest,U(:,1),'k',xtest,U(:,2),'k--',xtest,U(:,3),'k:','Linewidth',[2]) 
-legend('mode 1','mode 2','mode 3','Location','NorthWest') 
-
-subplot(3,1,3)
-t = linspace(1,N,N);
-plot(t, V(:,1),'k',t, V(:,2),'k--',t, V(:,3),'k:','Linewidth',[2])
-legend('mode 1','mode 2','mode 3','Location','NorthWest') 
+subplot(1,2,2), semilogy(sig(1:100),'ko','Linewidth',[1.5])
+ylabel('Log of Singular Values')
+xlabel('Singular Value Along Diagonal')
 
 %% Recreate an image
 [r,c] = size(im);
@@ -87,11 +78,13 @@ sig2 = diag(S2);
 [M,N] = size(UCF);
 
 title('Singular Values and PCA Modes for Ideal Case')
-subplot(3,2,1), plot(sig2(1:9),'ko','Linewidth',[1.5])
-%axis([0 7 0 2*10^4])
+subplot(1,2,1), plot(sig2(1:length(sig2)),'ko','Linewidth',[1.5])
+ylabel('Singular Values')
+xlabel('Singular Value Along Diagonal')
 
-subplot(3,2,2), semilogy(sig2(1:9),'ko','Linewidth',[1.5])
-%axis([0 7 0 2*10^4])
+subplot(1,2,2), semilogy(sig2(1:length(sig2)),'ko','Linewidth',[1.5])
+ylabel('Log of Singular Values')
+xlabel('Singular Value Along Diagonal')
 
 figure()
 for j = 1:3

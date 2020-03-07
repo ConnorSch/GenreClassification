@@ -27,9 +27,13 @@ for i = 4:length(myFiles)
     end
 end
 
-a_size = num_seg*5;
+a_size = (iter-1)/3;
 
 %% Pull Out Train and Test sets
+testruns = 20;
+percentage = zeros(1,testruns);
+for l = 1:testruns
+    
 q1 = randperm(a_size);
 q2 = randperm(a_size);
 q3 = randperm(a_size);
@@ -77,45 +81,46 @@ Xtest = [AIC_st,PJ_st,SG_st];
 
 %% Singular Values and Principal Components
 
-[U,S,V] = svd(X,'econ');
-
-figure()
-sig = diag(S);
-[M,N] = size(X);
-
-title('Singular Values')
-subplot(1,2,1), plot(sig(1:a_size),'ko','Linewidth',[1.5])
-%axis([0 7 0 2*10^4])
-
-subplot(1,2,2), semilogy(sig(1:a_size),'ko','Linewidth',[1.5])
-%axis([0 7 0 2*10^4])
-
-figure()
-for j = 1:6
-   subplot(2,3,j)
-   plot(U(:,j))
-end
-
-figure(3)
-for j=1:3
-  V1 = [1,4,7];
-  subplot(3,3,V1(j)) 
-  plot(1:a_size*samplerate,V(1:a_size*samplerate,j),'ko-') 
-  V2 = [2,5,8];
-  subplot(3,3,V2(j)) 
-  plot(a_size*samplerate+1:2*a_size*samplerate,V(a_size*samplerate+1:2*a_size*samplerate,j),'ko-')
-  V3 = [3,6,9];
-  subplot(3,3,V3(j))
-  plot(2*a_size*samplerate+1:3*a_size*samplerate,V(2*a_size*samplerate+1:3*a_size*samplerate,j),'ko-')
-end
-subplot(3,3,1), title('Alice in Chains') 
-subplot(3,3,2), title('Pearl Jam')
-subplot(3,3,3), title('Soundgarden')
+% [U,S,V] = svd(X,'econ');
+% 
+% figure()
+% sig = diag(S);
+% [M,N] = size(X);
+% 
+% subplot(1,2,1), plot(sig(1:a_size),'ko','Linewidth',[1.5])
+% ylabel('Singular Values')
+% xlabel('Singular Value Along Diagonal')
+% 
+% subplot(1,2,2), semilogy(sig(1:a_size),'ko','Linewidth',[1.5])
+% ylabel('Log of Singular Values')
+% xlabel('Singular Value Along Diagonal')
+% 
+% figure()
+% for j = 1:6
+%    subplot(2,3,j)
+%    plot(U(:,j))
+% end
+% 
+% figure(3)
+% for j=1:3
+%   V1 = [1,4,7];
+%   subplot(3,3,V1(j)) 
+%   plot(1:a_size*samplerate,V(1:a_size*samplerate,j),'ko-') 
+%   V2 = [2,5,8];
+%   subplot(3,3,V2(j)) 
+%   plot(a_size*samplerate+1:2*a_size*samplerate,V(a_size*samplerate+1:2*a_size*samplerate,j),'ko-')
+%   V3 = [3,6,9];
+%   subplot(3,3,V3(j))
+%   plot(2*a_size*samplerate+1:3*a_size*samplerate,V(2*a_size*samplerate+1:3*a_size*samplerate,j),'ko-')
+% end
+% subplot(3,3,1), title('Alice in Chains') 
+% subplot(3,3,2), title('Pearl Jam')
+% subplot(3,3,3), title('Soundgarden')
 
 %% Create training and test sets
-
+[U,S,V] = svd(X,'econ');
     
-numFeat = 40;
+numFeat = 20;
 
 samplesize = samplerate * a_size;
 xtrain = V(:,1:numFeat);
@@ -133,4 +138,7 @@ for k = 1:length(truth)
         num_correct = num_correct + 1;
    end
 end
-percentage = (num_correct/length(truth))*100
+percentage(l) = (num_correct/length(truth))*100;
+
+end
+mean(percentage)

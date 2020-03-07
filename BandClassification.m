@@ -79,6 +79,11 @@ end
 g_size = iter-1;
 
 %% Pull Out Train and Test sets
+test_runs = 20;
+percentage = zeros(1,test_runs);
+for l = 1:test_runs 
+    
+
 q1 = randperm(g_size);
 q2 = randperm(g_size);
 q3 = randperm(g_size);
@@ -121,18 +126,18 @@ X = [CM_s, GM_s, RM_s];
 Xtest = [CM_st,GM_st,RM_st];
 
 %% Singular Values and Principal Components
-[U,S,V] = svd(X,'econ');
 
 figure()
 sig = diag(S);
 [M,N] = size(X);
 
-title('Singular Values')
 subplot(1,2,1), plot(sig(1:g_size),'ko','Linewidth',[1.5])
-%axis([0 7 0 2*10^4])
+ylabel('Singular Values')
+xlabel('Singular Value Along Diagonal')
 
 subplot(1,2,2), semilogy(sig(1:g_size),'ko','Linewidth',[1.5])
-%axis([0 7 0 2*10^4])
+ylabel('Log of Singular Values')
+xlabel('Singular Value Along Diagonal')
 
 figure()
 for j = 1:6
@@ -157,12 +162,8 @@ subplot(3,3,2), title('Alice in Chains')
 subplot(3,3,3), title('Eminem')
 
 %% Create training and test sets
-
-test_runs = 20;
-percentage = zeros(1,test_runs);
-for l = 1:test_runs 
-    
-    numFeat = 40;
+    [U,S,V] = svd(X,'econ');
+    numFeat = 10;
 
     samplesize = samplerate * g_size;
     xtrain = V(:,1:numFeat);
