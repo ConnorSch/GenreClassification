@@ -136,39 +136,39 @@ Xtest = [CM_st,GM_st,RM_st];
 %% Singular Values and Principal Components
 % [U,S,V] = svd(X,'econ');
 
-figure()
-sig = diag(S);
-[M,N] = size(X);
-
-subplot(1,2,1), plot(sig(1:g_size),'ko','Linewidth',[1.5])
-ylabel('Singular Values')
-xlabel('Singular Value Along Diagonal')
-
-subplot(1,2,2), semilogy(sig(1:g_size),'ko','Linewidth',[1.5])
-ylabel('Log of Singular Values')
-xlabel('Singular Value Along Diagonal')
-
-figure()
-for j = 1:6
-   subplot(2,3,j)
-   plot(U(:,j))
-end
-
-figure(3)
-for j=1:3
-  V1 = [1,4,7];
-  subplot(3,3,V1(j)) 
-  plot(1:g_size*samplerate,V(1:g_size*samplerate,j),'ko-') 
-  V2 = [2,5,8];
-  subplot(3,3,V2(j)) 
-  plot(g_size*samplerate+1:2*g_size*samplerate,V(g_size*samplerate+1:2*g_size*samplerate,j),'ko-')
-  V3 = [3,6,9];
-  subplot(3,3,V3(j))
-  plot(2*g_size*samplerate+1:3*g_size*samplerate,V(2*g_size*samplerate+1:3*g_size*samplerate,j),'ko-')
-end
-subplot(3,3,1), title('Country') 
-subplot(3,3,2), title('Grunge')
-subplot(3,3,3), title('Rap')
+% figure()
+% sig = diag(S);
+% [M,N] = size(X);
+% 
+% subplot(1,2,1), plot(sig(1:g_size),'ko','Linewidth',[1.5])
+% ylabel('Singular Values')
+% xlabel('Singular Value Along Diagonal')
+% 
+% subplot(1,2,2), semilogy(sig(1:g_size),'ko','Linewidth',[1.5])
+% ylabel('Log of Singular Values')
+% xlabel('Singular Value Along Diagonal')
+% 
+% figure()
+% for j = 1:6
+%    subplot(2,3,j)
+%    plot(U(:,j))
+% end
+% 
+% figure(3)
+% for j=1:3
+%   V1 = [1,4,7];
+%   subplot(3,3,V1(j)) 
+%   plot(1:g_size*samplerate,V(1:g_size*samplerate,j),'ko-') 
+%   V2 = [2,5,8];
+%   subplot(3,3,V2(j)) 
+%   plot(g_size*samplerate+1:2*g_size*samplerate,V(g_size*samplerate+1:2*g_size*samplerate,j),'ko-')
+%   V3 = [3,6,9];
+%   subplot(3,3,V3(j))
+%   plot(2*g_size*samplerate+1:3*g_size*samplerate,V(2*g_size*samplerate+1:3*g_size*samplerate,j),'ko-')
+% end
+% subplot(3,3,1), title('Country') 
+% subplot(3,3,2), title('Grunge')
+% subplot(3,3,3), title('Rap')
 
 %% Create training and test sets
 
@@ -182,7 +182,7 @@ xtest = U'*Xtest;
 ctrain = [repmat({'Country'},[samplesize,1]);repmat({'Grunge'},[samplesize,1]);repmat({'Rap'},[samplesize,1])];
 truth = [repmat({'Country'},[g_size-samplesize,1]);repmat({'Grunge'},[g_size-samplesize,1]);repmat({'Rap'},[g_size-samplesize,1])];
 
-svm.mod = fitcecoc(V,ctrain);
+svm.mod = fitcecoc(xtrain,ctrain);
 pre = predict(svm.mod,xtest');
 
 num_correct = 0;
